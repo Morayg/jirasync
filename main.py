@@ -1,5 +1,6 @@
 from __future__ import print_function
 from pprint import pprint
+from redminelib import Redmine
 import re
 
 import pickle
@@ -74,7 +75,16 @@ class DocsData(object):
         result = self.__getNumberOnly__(self.listIssueWithoutRedmineLink())
         return result
 
+class RedmineIssie(object):
+    def __init__(self):
+        self.redmine = Redmine('https://task.finch.fm', username='ik ', password='A1s2d3f4')
 
+    def get(self, id: int):
+        return self.redmine.issue.get(id)
+
+    def create(self, issueName: str, issueDescription: str):
+        result = self.redmine.issue.create(project_id='premier-main', subject=issueName, description=issueDescription)
+        return result
 
 def main():
     config = {
@@ -83,9 +93,15 @@ def main():
     'sample_range_name': 'публикация 29.10 !C3:H'
     }
     
-    docsData = DocsData(config).listIssueNumberWithoutRedmineLink()
-    pprint(docsData)
+    # docsData = DocsData(config).listIssueNumberWithoutRedmineLink()
+    # pprint(docsData)
 
+    # red = Redmine('https://task.finch.fm', username='ik ', password='A1s2d3f4')
+    # response = red.issue.get(23541)
+
+    # response = RedmineIssie().get(23541)
+    response = RedmineIssie().create("Тестовый таск", "Описание")
+    pprint(response)
 
 if __name__ == '__main__':
     main()
