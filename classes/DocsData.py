@@ -8,6 +8,7 @@ import re
 
 class DocsData(object):
     def __init__(self, config: dict):
+        self.config = config 
         creds = None
         if os.path.exists("token.pickle"):
             with open("token.pickle", "rb") as token:
@@ -18,7 +19,7 @@ class DocsData(object):
                 creds.refresh(Request())
             else:
                 flow = InstalledAppFlow.from_client_secrets_file(
-                    "credentials.json", config.scopes
+                    "credentials.json", config['scopes']
                 )
                 creds = flow.run_local_server(port=0)
             # Save the credentials for the next run
@@ -28,9 +29,9 @@ class DocsData(object):
         service = build("sheets", "v4", credentials=creds)
 
         # Call the Sheets API
-        sheet = service.spreadsheets()
+        self.sheet = service.spreadsheets()
         result = (
-            sheet.values()
+            self.sheet.values()
             .get(
                 spreadsheetId=config["sample_spreadsheet_id"],
                 range=config["sample_range_name"],
@@ -85,3 +86,15 @@ class DocsData(object):
                 match = re.search(re.escape(id), item[3])
                 if match:
                     return {'linkJira':item[3], 'status': item[1], 'docsDescription': item[2]}
+
+    def __getRowNumberByJiraId__(self,id):
+        for i, val in enumerate(self.values):
+            if len(val) >= 4:
+                match = re.search(re.escape(id), val[3])
+                if match:
+                    return i
+
+    def addRmLinkByJiraId(self, id, rmLink):
+        range = 'публикация 29.10 !H' + str(self.__getRowNumberByJiraId__(id) + 3)
+        result = self.sheet.values().update(spreadsheetId=self.config['sample_spreadsheet_id'], range=range, body={'values': [[rmLink]]}, valueInputOption='RAW').execute()
+        return result

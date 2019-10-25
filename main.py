@@ -7,7 +7,7 @@ from pprint import pprint
 
 def main():
     config = {
-    'scopes': ['https://www.googleapis.com/auth/spreadsheets.readonly'], 
+    'scopes': ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'], 
     'sample_spreadsheet_id': '1_CjOSN8RnE3yW0Ta--TaZtIVB4jZzY1wQuojNJhZ3w4',
     'sample_range_name': 'публикация 29.10 !C3:H'
     }
@@ -18,8 +18,8 @@ def main():
 
     for issue in docs.listIssueNumberWithoutRedmineLink():
         result.append({**jiraissue.getIssue(issue), **docs.getIssueByJiraId(issue)})
-
-    pprint(result)
+        response = docs.addRmLinkByJiraId(issue, 'test')
+    pprint(response)
 
 if __name__ == '__main__':
     main()
