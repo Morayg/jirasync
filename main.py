@@ -1,6 +1,7 @@
 from __future__ import print_function
 from classes.DocsData import DocsData
-from classes.RedmineIssie import RedmineIssie
+from classes.RedmineIssue import RedmineIssue
+from classes.JiraIssue import JiraIssue
 from pprint import pprint
 
 
@@ -11,12 +12,14 @@ def main():
     'sample_range_name': 'публикация 29.10 !C3:H'
     }
     
-    # docsData = DocsData(config).listIssueNumberWithoutRedmineLink()
-    # pprint(docsData)
+    result = []
+    docs = DocsData(config)
+    jiraissue = JiraIssue()
 
-    response = RedmineIssie().get(23541)
-    # response = RedmineIssie().create("Тестовый таск", "Описание")
-    pprint(response)
+    for issue in docs.listIssueNumberWithoutRedmineLink():
+        result.append({**jiraissue.getIssue(issue), **docs.getIssueByJiraId(issue)})
+
+    pprint(result)
 
 if __name__ == '__main__':
     main()

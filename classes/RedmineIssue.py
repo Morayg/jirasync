@@ -1,6 +1,6 @@
 from redminelib import Redmine
 
-class RedmineIssie(object):
+class RedmineIssue(object):
     def __init__(self):
         self.redmine = Redmine('https://task.finch.fm', username='ik ', password='A1s2d3f4')
 
