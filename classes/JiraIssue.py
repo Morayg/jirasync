@@ -7,4 +7,4 @@ class JiraIssue(object):
     
     def getIssue(self, id: str):
         issue = self.jira.issue(id)
-        return {'id': issue.key, 'description':issue.fields.description}
+        return {'id': issue.key, 'name': issue.fields.summary ,'description':issue.fields.description}

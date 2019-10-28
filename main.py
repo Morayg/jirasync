@@ -15,11 +15,15 @@ def main():
     result = []
     docs = DocsData(config)
     jiraissue = JiraIssue()
+    redmineIssue = RedmineIssue()
 
     for issue in docs.listIssueNumberWithoutRedmineLink():
         result.append({**jiraissue.getIssue(issue), **docs.getIssueByJiraId(issue)})
-        response = docs.addRmLinkByJiraId(issue, 'test')
-    pprint(response)
+    
+    for issue in result:
+        response = redmineIssue.create(issue['name'], issue['docsDescription'] + ': \n' + issue['description'])
+        result = docs.addRmLinkByJiraId(issue['id'], response.url)
+
 
 if __name__ == '__main__':
     main()
