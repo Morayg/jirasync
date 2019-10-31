@@ -1,9 +1,9 @@
 from jira import JIRA
 
 class JiraIssue(object):
-    def __init__(self):
+    def __init__(self, auth):
         options = {'server': 'https://jira.zxz.su'}
-        self.jira = JIRA(options, auth=('jirafinch', 'aSazqs12nm8'))
+        self.jira = JIRA(options, auth=auth)
     
     def getIssue(self, id: str):
         issue = self.jira.issue(id)

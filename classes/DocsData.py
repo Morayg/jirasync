@@ -94,7 +94,7 @@ class DocsData(object):
                 if match:
                     return i
 
-    def addRmLinkByJiraId(self, id, rmLink):
-        range = 'публикация 29.10 !H' + str(self.__getRowNumberByJiraId__(id) + 3)
+    def addRmLinkByJiraId(self, id, rmLink, version):
+        range = version +'!H' + str(self.__getRowNumberByJiraId__(id) + 3)
         result = self.sheet.values().update(spreadsheetId=self.config['sample_spreadsheet_id'], range=range, body={'values': [[rmLink]]}, valueInputOption='RAW').execute()
         return result
