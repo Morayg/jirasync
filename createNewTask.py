@@ -2,17 +2,17 @@ from __future__ import print_function
 from classes.DocsData import DocsData
 from classes.Redmine import RedmineIssue
 from classes.Redmine import RedmineVersion
-from classes.JiraIssue import JiraIssue
+from classes.Jira import JiraIssue
 from pprint import pprint
 import json
 
 
 def main():
-    version = 'публикация 01.11'
+    version = 'публикация 08.11 '
     with open('auth.json', 'r') as f:
         distros_dict = json.load(f)
-    auth=(distros_dict['jira']['login'], distros_dict['jira']['password'])
-    redauth={'login': distros_dict['redmine']['login'], 'password': distros_dict['redmine']['login']}
+    auth = (distros_dict['jira']['login'], distros_dict['jira']['password'])
+    redauth = {'login': distros_dict['redmine']['login'], 'password': distros_dict['redmine']['password']}
     config = {
     'scopes': ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'], 
     'sample_spreadsheet_id': '1_CjOSN8RnE3yW0Ta--TaZtIVB4jZzY1wQuojNJhZ3w4',
@@ -40,7 +40,7 @@ def main():
         else:
             versionId = redmineVersion.check('premier-main', version)
 
-        response = redmineIssue.create(issue['name'], issue['docsDescription'] + ': \n' + issue['description'], versionId)
+        response = redmineIssue.create(issue['docsDescription'], issue['name'] + ': \n' + issue['description'], versionId)
         redmineIssue.createSubTasks(issue['name'], response.id, listProjects)
         result = docs.addRmLinkByJiraId(issue['id'], response.url, version)
 

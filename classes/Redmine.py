@@ -24,7 +24,6 @@ class RedmineVersion(object):
     def check(self, project_id: str, name: str):
         versions = self.redmine.version.filter(project_id=project_id)
         for version in versions:
-            print(version.name)
             if version.name == name:
                 return version.id
 
