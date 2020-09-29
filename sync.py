@@ -36,7 +36,7 @@ def main():
     redmineIssue = RedmineIssue(redauth['login'], redauth['password'])
     redmineVersion = RedmineVersion(redauth['login'], redauth['password'])
     
-    #00. Изменить формат получения данных из таблицы
+    #00. Изменить формат получения без использования таблицы
 
     #0. проверка наличия тасков в каждой из платформ, относительно жиры
 
