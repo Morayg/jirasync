@@ -7,7 +7,8 @@ import re
 
 
 class DocsData(object):
-    def __init__(self, config: dict):
+    def __init__(self, config: dict, formatData: dict):
+        self.format = formatData
         self.config = config 
         creds = None
         if os.path.exists("token.pickle"):
@@ -39,6 +40,10 @@ class DocsData(object):
             .execute()
         )
         self.values = result.get("values", [])
+
+    def __getColumnByName__(self, name):
+        self.values = dict_values
+        
 
     def get(self):
         if not self.values:

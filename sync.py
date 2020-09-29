@@ -12,7 +12,7 @@ def main():
     'scopes': ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'], 
     #TODO: заменить на рабочий нейминг
     'sample_spreadsheet_id': '1_CjOSN8RnE3yW0Ta--TaZtIVB4jZzY1wQuojNJhZ3w4',
-    'sample_range_name': platform + '!A1:J'
+    'sample_range_name': platform + '!A:J'
     }
     
     #список подпроектов в редмайне
@@ -36,6 +36,8 @@ def main():
     redmineIssue = RedmineIssue(redauth['login'], redauth['password'])
     redmineVersion = RedmineVersion(redauth['login'], redauth['password'])
     
+    #00. Изменить формат получения данных из таблицы
+
     #0. проверка наличия тасков в каждой из платформ, относительно жиры
 
     #1. синхронизация между платформами по названию
